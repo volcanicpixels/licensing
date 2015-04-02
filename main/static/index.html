@@ -1,0 +1,47 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>Volcanic Pixels Licensing Server</title>
+
+  <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="/static/styles.css">
+  <script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
+
+  <!--[if lt IE 9]>
+  <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+</head>
+
+<body>
+
+  <datalist id="products">
+    <option value="domain_changer">
+  </datalist>
+
+  <h1>License Server</h1>
+
+  <section>
+    <div class="sections">
+      <div class="section active">Create</div>
+      <div class="section">Revoke</div>
+      <div class="section">Decode</div>
+    </div>
+    <form class="create">
+      <fieldset>
+        <label>
+          Product
+          <input name="product" list="products" />
+        </label>
+      </fieldset>
+      <fieldset>
+        <button class="primary-button">Create License</button>
+      </fieldset>
+    </form>
+  </section>
+
+  <script src="/static/scripts.js"></script>
+</body>
+</html>

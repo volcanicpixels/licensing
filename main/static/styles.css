@@ -1,0 +1,127 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #f8f5f0;
+  font-family: normal, 'Open Sans', sans-serif;
+}
+
+h1 {
+  text-align: center;
+}
+
+.sections {
+  border-bottom: 0.2em solid #f8f5f0;
+  padding: 0 0.4em;
+  text-align: center;
+}
+
+.section {
+  display: inline-block;
+  padding: 1em;
+  text-transform: uppercase;
+  opacity: 0.6;
+  cursor: pointer;
+}
+
+.section:hover {
+  opacity: 1;
+}
+
+.section.active {
+  box-shadow: inset 0px -4px 0px #f23e2f;
+  opacity: 1;
+}
+
+section {
+  background: white;
+  width: 25em;
+  box-shadow: rgba(0,0,0,0.1) 0 1px 2px;
+  border-radius: 1px;
+  margin: 2em auto;
+}
+
+h2 {
+  text-align: center;
+}
+
+form {
+  padding: 2em;
+}
+
+fieldset {
+  outline: none;
+  border: none;
+}
+
+input {
+  width: 100%;
+  color: #998F7F;
+  background-color: #FCFAF5;
+  border: 1px solid #E3DBCE;
+  padding: 0.55em 0.9em;
+  border-radius: .15em;
+}
+
+button {
+  width: 100%;
+  padding: 0.5em 1em 0.5em 1em;
+  margin-right: 0.5em;
+  opacity: 0.9;
+  text-transform: uppercase;
+  cursor: pointer;
+  font-family: 'Courier','monospace';
+  font-size: .9em;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+       -o-user-select: none;
+          user-select: none;
+  -webkit-border-radius: .2em;
+     -moz-border-radius: .2em;
+      -ms-border-radius: .2em;
+       -o-border-radius: .2em;
+          border-radius: .2em;
+  border: none;
+  text-align: center;
+
+  position: relative;
+  top: -0.2em;
+
+  background-color: #f23e2f;
+  -webkit-box-shadow: 0 .2em 0 #b0180b;
+     -mox-box-shadow: 0 .2em 0 #b0180b;
+      -ms-box-shadow: 0 .2em 0 #b0180b;
+       -o-box-shadow: 0 .2em 0 #b0180b;
+          box-shadow: 0 .2em 0 #b0180b;
+  color: #fff
+}
+
+button:hover,
+button focus {
+    opacity: 1;
+    outline: none;
+    color: #fff;
+    -webkit-box-shadow: 0 .2em 0 #981409;
+       -mox-box-shadow: 0 .2em 0 #981409;
+        -ms-box-shadow: 0 .2em 0 #981409;
+         -o-box-shadow: 0 .2em 0 #981409;
+            box-shadow: 0 .2em 0 #981409;
+}
+
+button:active {
+  top: 0;
+  -webkit-box-shadow: none;
+     -mox-box-shadow: none;
+      -ms-box-shadow: none;
+       -o-box-shadow: none;
+          box-shadow: none;
+}
+
+button:disabled {
+  pointer-events: none;
+  opacity: 0.4;
+}
