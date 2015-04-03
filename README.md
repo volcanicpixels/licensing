@@ -40,7 +40,7 @@ be economically beneficial.
 
 I am a firm believer that any protection should not inhibit or even hinder the
 ability of a paying customer to use the software in any way that is permitted.
-Here are some recommendations:
+Here are some guidelines that should be followed in new products:
 
 ### Fail unlocked
 
