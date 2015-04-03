@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/gorilla/mux"
@@ -12,7 +13,7 @@ func newAPIRouter() http.Handler {
 	chain := alice.New(stripPrefixMiddleware("/api"))
 
 	for _, route := range apiRoutes {
-		handlerFunc := route.handlerFunc
+		handler := appHandler(route.handler)
 
 		// add middlleware here
 
@@ -20,9 +21,14 @@ func newAPIRouter() http.Handler {
 			Methods(route.method).
 			Path(route.pattern).
 			Name(route.name).
-			HandlerFunc(handlerFunc)
+			Handler(handler)
 
 	}
 
+	//router.HandleFunc("/licenses", testHandler)
+
 	return chain.Then(router)
+}
+func testHandler(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprint(w, "Hi there")
 }

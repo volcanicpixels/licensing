@@ -1,12 +1,10 @@
 package main
 
-import "net/http"
-
 type route struct {
-	name        string
-	method      string
-	pattern     string
-	handlerFunc http.HandlerFunc
+	name    string
+	method  string
+	pattern string
+	handler appHandler
 }
 
 type routes []route
@@ -17,5 +15,11 @@ var apiRoutes = routes{
 		"POST",
 		"/licenses",
 		NewLicense,
+	},
+	route{
+		"TestHandler",
+		"GET",
+		"/",
+		TestHandler,
 	},
 }
