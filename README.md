@@ -27,6 +27,35 @@ claim to store an object of attributes, namely:
  - **chargeId** - the charge ID relating to the license
 
 
+## Revoking licenses
+
+The licensing google storage bucket has a revocations.txt file that contains
+one revocation per line in the following format (key id, and optional comment)
+
+```
+daS7y8sioiecYy # 2015-03-31 12:31 (key posted online)
+```
+
+Initially you might recoil at the thought of keeping this as just a simple text
+file but it works very well and has some very nice properties, if any system
+needs to be able to revoke licenses then all that needs to be done is to
+download the google storage client library for that language, generate some
+credentials that are valid for the revocations.txt file and write a line to a
+file.
+
+Equally, if a system wants to know when a license is revoked then using google
+storage it can watch the file and get notified via webhook when it changes.
+These things would be non-trivial and time consuming to setup another way.
+
+The revocations.txt file is not intended for public consumption, instead the
+server periodically (or when a change occurs) parses the file and generates a
+revocations.json file (which is public). This file is signed with an expiry
+date.
+
+By default the revocations.json file is valid for 48 hours and is regenerated
+every hour (to ensure that it always has ~48 hours of life left).  
+
+
 ## Circumventing the licensing
 
 Since the products that this licensing system supports are written in
@@ -42,10 +71,10 @@ I am a firm believer that any protection should not inhibit or even hinder the
 ability of a paying customer to use the software in any way that is permitted.
 Here are some guidelines that should be followed in new products:
 
-### Fail unlocked
+### Err unlocked
 
-If a check fails (e.g. remote server license check etc.) then the failure
-should result in the plugin being unlocked.
+If a check errors (e.g. remote server license check etc.) then the error
+should result in the plugin remaining in its current state.
 
 ### License pre-loaded
 
