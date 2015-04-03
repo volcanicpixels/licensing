@@ -52,7 +52,7 @@ server periodically (or when a change occurs) parses the file and generates a
 revocations.json file (which is public). This file is signed with an expiry
 date.
 
-By default the revocations.json file is valid for 48 hours and is regenerated
+By default the revocations.json file is valid for 72 hours and is regenerated
 every hour (to ensure that it always has ~48 hours of life left).  
 
 

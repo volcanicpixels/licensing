@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"net/http"
 	"strings"
+	"time"
 
 	"golang.org/x/net/context"
 	"google.golang.org/appengine"
@@ -136,6 +137,7 @@ func UpdateRevocationFile(c context.Context, w http.ResponseWriter, r *http.Requ
 
 	t := jwt.NewToken(jwt.RSA)
 	t.SetClaim("_revoked", formatted)
+	t.SetClaim("exp", time.Now().Add(time.Hour*72).Unix())
 
 	key, err := getPrivateKey(c, "plugin")
 
