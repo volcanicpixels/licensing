@@ -23,24 +23,34 @@
 
   <h1>License Server</h1>
 
-  <section>
+  <div class="card">
     <div class="sections">
       <div class="section active">Create</div>
       <div class="section">Revoke</div>
       <div class="section">Decode</div>
     </div>
-    <form class="create">
-      <fieldset>
-        <label>
-          Product
-          <input name="product" list="products" />
-        </label>
-      </fieldset>
+    <section class="create active">
+      <form>
+        <fieldset>
+          <label>
+            <span>Product</span>
+            <input name="product" list="products" />
+          </label>
+        </fieldset>
+      </form>
       <fieldset>
         <button class="primary-button">Create License</button>
       </fieldset>
-    </form>
-  </section>
+      <fieldset>
+        <textarea class="result"></textarea
+      </fieldset>
+    </section>
+
+    <section class="revoke"></section>
+
+
+    <section class="decode"></section>
+  </div>
 
   <script src="/static/scripts.js"></script>
 </body>
