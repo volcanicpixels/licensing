@@ -4,11 +4,13 @@ import (
 	"crypto/rsa"
 	"encoding/json"
 	"net/http"
+	"strings"
 
 	"golang.org/x/net/context"
 	"google.golang.org/appengine"
 	"google.golang.org/appengine/log"
 
+	"github.com/danielchatfield/go-jwt"
 	"github.com/gorilla/mux"
 	"github.com/volcanicpixels/licensing/license"
 )
@@ -106,4 +108,65 @@ func RevokeLicense(c context.Context, w http.ResponseWriter, r *http.Request) *a
 	writeJSON(w, 200, "SUCCESS")
 
 	return nil
+}
+
+func UpdateRevocationFile(c context.Context, w http.ResponseWriter, r *http.Request) *appError {
+	sc := NewStorageContext(c)
+	data, err := sc.ReadFile("revocations.txt")
+
+	if err != nil {
+		return &appError{err, "An error occurred reading the revocations.txt file", http.StatusInternalServerError}
+	}
+
+	revocations := strings.Split(string(data), "\n")
+
+	var formatted []string
+
+	for _, line := range revocations {
+		id := strings.TrimSpace(strings.Split(line, "#")[0])
+
+		if id == "" {
+			continue
+		}
+
+		formatted = append(formatted, id)
+	}
+
+	// ok, we have the revocations now
+
+	t := jwt.NewToken(jwt.RSA)
+	t.SetClaim("_revoked", formatted)
+
+	key, err := getPrivateKey(c, "plugin")
+
+	if err != nil {
+		return &appError{err, "The private key could not be retrieved", http.StatusInternalServerError}
+	}
+
+	type revokedJSON struct {
+		Token string `json:"token"`
+	}
+
+	tokenString, err := t.Encode(key)
+
+	if err != nil {
+		return &appError{err, "An error occured when signing the token", http.StatusInternalServerError}
+	}
+
+	rev, err := json.Marshal(revokedJSON{tokenString})
+
+	if err != nil {
+		return &appError{err, "An error occured when marshalling the JSON", http.StatusInternalServerError}
+	}
+
+	err = sc.WriteFile("revocations.json", []byte(rev))
+
+	if err != nil {
+		return &appError{err, "An error occured when writing the revocations.json file", http.StatusInternalServerError}
+	}
+
+	writeJSON(w, 200, "SUCCESS")
+
+	return nil
+
 }

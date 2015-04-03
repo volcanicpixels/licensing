@@ -1,0 +1,4 @@
+cron:
+- description: Update Revocations File
+  url: /api/update_revocation_file
+  schedule: every hour

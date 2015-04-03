@@ -22,4 +22,10 @@ var apiRoutes = routes{
 		"/licenses/{id}/revoke",
 		RevokeLicense,
 	},
+	route{
+		"UpdateRevocationFile",
+		"GET",
+		"/update_revocation_file",
+		UpdateRevocationFile,
+	},
 }
