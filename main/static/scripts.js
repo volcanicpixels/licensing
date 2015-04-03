@@ -40,7 +40,6 @@
   };
 
   var changeSection = function() {
-    console.log(this);
 
     $('.section').removeClass('active');
     $('section').removeClass('active');
@@ -68,6 +67,29 @@
           // show license
           console.log(data);
           setResult($create, data);
+        })
+        .fail(function(jqXHR){
+          // Do something intelligent with the error
+          alert(jqXHR.responseText);
+          console.log(jqXHR.resultText);
+        })
+        .always(function(){
+          // reset button and spinner
+        });
+    });
+
+    $('.revoke button').click(function(event){
+      event.preventDefault();
+
+      // disable button
+      // start spinner
+
+      var id = $('.revoke .id').val();
+
+      apiPOSTRequest('/licenses/' + id + '/revoke', {})
+        .done(function(data, textStatus){
+          // show license
+          alert(data);
         })
         .fail(function(jqXHR){
           // Do something intelligent with the error

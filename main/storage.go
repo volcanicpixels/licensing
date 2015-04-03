@@ -2,7 +2,9 @@ package main
 
 import (
 	"io/ioutil"
+	"mime"
 	"net/http"
+	"path/filepath"
 	"strings"
 
 	"golang.org/x/net/context"
@@ -19,7 +21,7 @@ import (
 
 type StorageContext interface {
 	ReadFile(fileName string) ([]byte, error)
-	//WriteFile(fileName string, data []byte) error
+	WriteFile(fileName string, data []byte) error
 }
 
 type storageContext struct {
@@ -83,4 +85,25 @@ func (sc *storageContext) ReadFile(fileName string) (slurp []byte, err error) {
 
 	slurp, err = ioutil.ReadAll(rc)
 	return
+}
+
+// WriteFile writes a byte arrat to a file and sets the content type based on
+// the file extension.
+func (sc *storageContext) WriteFile(fileName string, data []byte) error {
+	bucket, err := sc.Bucket()
+
+	if err != nil {
+		return err
+	}
+
+	log.Debugf(sc.c, "Writing file %v to bucket %v", fileName, bucket)
+
+	wc := storage.NewWriter(sc.ctx, bucket, fileName)
+	wc.ContentType = mime.TypeByExtension(filepath.Ext(fileName))
+
+	if _, err := wc.Write(data); err != nil {
+		return err
+	}
+
+	return wc.Close()
 }

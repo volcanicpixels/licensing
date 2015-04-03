@@ -16,4 +16,10 @@ var apiRoutes = routes{
 		"/licenses",
 		NewLicense,
 	},
+	route{
+		"RevokeLicense",
+		"POST",
+		"/licenses/{id}/revoke",
+		RevokeLicense,
+	},
 }
