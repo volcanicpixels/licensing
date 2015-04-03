@@ -16,10 +16,4 @@ var apiRoutes = routes{
 		"/licenses",
 		NewLicense,
 	},
-	route{
-		"TestHandler",
-		"GET",
-		"/",
-		TestHandler,
-	},
 }

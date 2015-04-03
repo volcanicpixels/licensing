@@ -3,8 +3,6 @@ package main
 import (
 	"crypto/rsa"
 	"encoding/json"
-	"fmt"
-	"io/ioutil"
 	"net/http"
 
 	"golang.org/x/net/context"
@@ -63,19 +61,5 @@ func NewLicense(c context.Context, w http.ResponseWriter, r *http.Request) *appE
 	}
 
 	writeJSON(w, 200, licStr)
-	return nil
-}
-
-func TestHandler(c context.Context, w http.ResponseWriter, r *http.Request) *appError {
-	file, err := ioutil.ReadFile("static/scripts.js")
-
-	if err != nil {
-		fmt.Fprint(w, err)
-	}
-
-	fmt.Fprint(w, string(file))
-
-	fmt.Fprint(w, "this is a test")
-
 	return nil
 }
