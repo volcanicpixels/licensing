@@ -22,6 +22,7 @@ import (
 type StorageContext interface {
 	ReadFile(fileName string) ([]byte, error)
 	WriteFile(fileName string, data []byte) error
+	MakePublic(fileName string) error
 }
 
 type storageContext struct {
@@ -121,4 +122,16 @@ func (sc *storageContext) WriteFile(fileName string, data []byte) error {
 	}
 
 	return wc.Close()
+}
+
+func (sc *storageContext) MakePublic(fileName string) error {
+	bucket, err := sc.Bucket()
+
+	if err != nil {
+		return err
+	}
+
+	log.Debugf(sc.c, "Making file %v in bucket %v public", fileName, bucket)
+
+	return storage.PutACLRule(sc.ctx, bucket, fileName, storage.AllUsers, storage.RoleReader)
 }

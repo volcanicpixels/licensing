@@ -167,6 +167,12 @@ func UpdateRevocationFile(c context.Context, w http.ResponseWriter, r *http.Requ
 		return &appError{err, "An error occured when writing the revocations.json file", http.StatusInternalServerError}
 	}
 
+	err = sc.MakePublic("revocations.json")
+
+	if err != nil {
+		return &appError{err, "An error occured when making the revocations.json file public", http.StatusInternalServerError}
+	}
+
 	writeJSON(w, 200, "SUCCESS")
 
 	return nil
