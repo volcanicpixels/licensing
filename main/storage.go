@@ -99,7 +99,22 @@ func (sc *storageContext) WriteFile(fileName string, data []byte) error {
 	log.Debugf(sc.c, "Writing file %v to bucket %v", fileName, bucket)
 
 	wc := storage.NewWriter(sc.ctx, bucket, fileName)
-	wc.ContentType = mime.TypeByExtension(filepath.Ext(fileName))
+
+	ext := filepath.Ext(fileName)
+
+	// unfortunately app engine doesn't support mimetypes so we have to do this manually
+	var contentType string
+
+	switch ext {
+	case ".json":
+		contentType = "application/json"
+	case ".txt":
+		contentType = "text/plain"
+	default:
+		contentType = mime.TypeByExtension(ext)
+	}
+
+	wc.ContentType = contentType
 
 	if _, err := wc.Write(data); err != nil {
 		return err
