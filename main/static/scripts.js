@@ -36,7 +36,7 @@
   };
 
   var setResult = function($section, data) {
-    $section.find('.result').val(data.result);
+    $section.find('.result').val(data);
   };
 
   var changeSection = function() {
@@ -53,6 +53,7 @@
 
   $(document).ready(function(){
     var $create = $('.create');
+    var $decode = $('.decode');
 
     $('.section').click(changeSection);
 
@@ -66,7 +67,7 @@
         .done(function(data, textStatus){
           // show license
           console.log(data);
-          setResult($create, data);
+          setResult($create, data.result);
         })
         .fail(function(jqXHR){
           // Do something intelligent with the error
@@ -90,6 +91,28 @@
         .done(function(data, textStatus){
           // show license
           alert(data);
+        })
+        .fail(function(jqXHR){
+          // Do something intelligent with the error
+          alert(jqXHR.responseText);
+          console.log(jqXHR.resultText);
+        })
+        .always(function(){
+          // reset button and spinner
+        });
+    });
+
+    $('.decode button').click(function(event){
+      event.preventDefault();
+
+      // disable button
+      // start spinner
+
+      apiPOSTRequest('/licenses/_/decode', serializeForm($decode))
+        .done(function(data, textStatus){
+          // show license
+          setResult($decode, JSON.stringify(data.result));
+          console.log(data);
         })
         .fail(function(jqXHR){
           // Do something intelligent with the error

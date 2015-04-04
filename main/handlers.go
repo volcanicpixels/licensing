@@ -111,6 +111,33 @@ func RevokeLicense(c context.Context, w http.ResponseWriter, r *http.Request) *a
 	return nil
 }
 
+func DecodeLicense(c context.Context, w http.ResponseWriter, r *http.Request) *appError {
+	var req struct{ License string }
+	var err error
+
+	if err = json.NewDecoder(r.Body).Decode(&req); err != nil {
+		return &appError{err, "Could not decode json request", http.StatusBadRequest}
+	}
+
+	// req successfully Decoded
+
+	var key *rsa.PublicKey
+	if key, err = getPublicKey(c, "plugin"); err != nil {
+		return &appError{err, "Could not load public key for verifying", http.StatusInternalServerError}
+	}
+
+	l, err := license.Parse(req.License, key)
+
+	if err != nil {
+		return &appError{err, "An error occured parsing the token", http.StatusBadRequest}
+	}
+
+	// license successfuly decoded - now lets return the response
+	writeJSON(w, 200, l)
+
+	return nil
+}
+
 func UpdateRevocationFile(c context.Context, w http.ResponseWriter, r *http.Request) *appError {
 	sc := NewStorageContext(c)
 	data, err := sc.ReadFile("revocations.txt")

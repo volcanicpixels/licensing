@@ -23,6 +23,12 @@ var apiRoutes = routes{
 		RevokeLicense,
 	},
 	route{
+		"DecodeLicense",
+		"POST",
+		"/licenses/_/decode",
+		DecodeLicense,
+	},
+	route{
 		"UpdateRevocationFile",
 		"GET",
 		"/update_revocation_file",
